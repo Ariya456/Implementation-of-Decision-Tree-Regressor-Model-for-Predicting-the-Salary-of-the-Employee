@@ -23,44 +23,59 @@ RegisterNumber: 212223080005
 ```
 /*
 import pandas as pd
-import matplotlib.pyplot as plt
-data = pd.read_csv("/content/Mall_Customers.csv")
+data=pd.read_csv("/Salary.csv")
 data.head()
 data.info()
 data.isnull().sum()
-from sklearn.cluster import KMeans 
-wcss = [] #Within-Cluster Sum of Square 
-#It is the sum of the squared distance between each point and the centroid in the cluster 
-for i in range(1,11):
-  kmeans = KMeans(n_clusters = i, init = "k-means++")
-  kmeans.fit(data.iloc[:,3:])
-  wcss.append(kmeans.inertia_)
-plt.plot(range(1,11),wcss)
-plt.xlabel("No. of clusters")
-plt.ylabel("wcss")
-plt.title("Elbow method")
-km = KMeans(n_clusters = 5)
-km.fit(data.iloc[:,3:])
-KMeans(n_clusters=5)
-y_pred = km.predict(data.iloc[:,3:])
+
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+data["Position"]=le.fit_transform(data["Position"])
+data.head()
+
+x=data[["Position","Level"]]
+x.head()
+y=data["Salary"]
+y.head()
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=2)
+
+from sklearn.tree import DecisionTreeRegressor
+dt=DecisionTreeRegressor()
+dt.fit(x_train,y_train)
+y_pred=dt.predict(x_test)
 y_pred
-data["cluster"]= y_pred
-df0= data[data["cluster"]==0]
-df1= data[data["cluster"]==1]
-df2= data[data["cluster"]==2]
-df3= data[data["cluster"]==3]
-df4= data[data["cluster"]==4]
-plt.scatter(df0["Annual Income (k$)"], df0["Spending Score (1-100)"],c="red", label="cluster0")
-plt.scatter(df1["Annual Income (k$)"], df1["Spending Score (1-100)"],c="black", label="cluster1")
-plt.scatter(df2["Annual Income (k$)"], df2["Spending Score (1-100)"],c="blue", label="cluster2")
-plt.scatter(df3["Annual Income (k$)"], df3["Spending Score (1-100)"],c="green", label="cluster3")
-plt.scatter(df4["Annual Income (k$)"], df4["Spending Score (1-100)"],c="magenta", label="cluster4")
-plt.legend()
-plt.title("Customer Segments")
+
+r2=metrics.r2_score(y_test,y_pred)
+r2
+
+dt.predict([[5,6]])
 */
 ```
 ## Output:
-![image](https://github.com/user-attachments/assets/81142455-7898-47ee-bf32-7a6a9c1dbecc)
+![image](https://github.com/user-attachments/assets/a236d224-1edd-44f7-8bb7-174b5f9872d9)
+
+![image](https://github.com/user-attachments/assets/94b59e82-6e8a-4c77-91d9-84c22e78c402)
+
+
+![image](https://github.com/user-attachments/assets/9e689915-81dc-471b-bfb2-a3b8cf7807db)
+
+![image](https://github.com/user-attachments/assets/b523ec58-5652-4465-a99f-e5215fc3895f)
+
+![image](https://github.com/user-attachments/assets/61e73442-6f1c-486b-b8bd-12c8a87a8679)
+
+![image](https://github.com/user-attachments/assets/ebb7dd36-224a-4864-a353-af213a024366)
+
+![image](https://github.com/user-attachments/assets/c982ed7a-883f-4c24-a024-4ec80728aa8f)
+
+
+![image](https://github.com/user-attachments/assets/ee1325a0-ffc8-4c86-8d2d-baf447081359)
+
+![image](https://github.com/user-attachments/assets/d1e27212-2e4e-4afb-9ad2-c4dd0ceed108)
+
+
+![image](https://github.com/user-attachments/assets/efb69d7d-962e-4a66-8d40-b9043f95164e)
 
 ## Result:
 Thus the program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee is written and verified using python programming.
